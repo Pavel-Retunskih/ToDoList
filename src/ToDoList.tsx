@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { Button } from "./Button";
 import { AddItemForm } from "./AddItemForm";
+import { TaskType } from "./model/tasksReducer";
 
 type ToDoListPropsType = {
   title: string;
-  tasks: Array<ToDoListTasksPropsType>;
+  tasks: TaskType[];
   todolistID: string;
   removeTask: (todolistID: string, taskID: string) => void;
   addTask: (todolistID: string, title: string) => void;
@@ -14,14 +15,6 @@ type ToDoListPropsType = {
     newIsDone: boolean
   ) => void;
 };
-
-export type ToDoListTasksPropsType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
-
-export type FilterType = "all" | "active" | "completed";
 
 export function ToDoList({
   title,
@@ -33,10 +26,7 @@ export function ToDoList({
 }: ToDoListPropsType) {
   const [filter, setFilter] = useState<FilterType>("all");
 
-  const getFilteredTasks = (
-    filter: FilterType,
-    tasks: Array<ToDoListTasksPropsType>
-  ) => {
+  const getFilteredTasks = (filter: FilterType, tasks: TaskType[]) => {
     const filteredTasks = tasks.filter((task) => {
       if (filter === "active") {
         return !task.isDone;

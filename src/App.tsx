@@ -10,34 +10,10 @@ import {
 } from "./model/todolistsReducer";
 
 function App() {
-  type TasksStateType = {
-    [key: string]: DataType;
-  };
-  type DataType = {
-    data: ToDoListTasksPropsType[];
-  };
-  let todolistId1 = v1();
-  let todolistId2 = v1();
-
   const [todolists, dispatchTodolist] = useReducer(
     todolistsReducer,
     initialState
   );
-
-  let [tasks, setTasks] = useState<TasksStateType>({
-    [todolistId1]: {
-      data: [
-        { id: v1(), title: "HTML&CSS1111", isDone: true },
-        { id: v1(), title: "JS1111", isDone: true },
-      ],
-    },
-    [todolistId2]: {
-      data: [
-        { id: v1(), title: "HTML&CSS22222", isDone: true },
-        { id: v1(), title: "JS2222", isDone: true },
-      ],
-    },
-  });
 
   const removeTask = (todolistID: string, taskID: string) => {
     setTasks({
