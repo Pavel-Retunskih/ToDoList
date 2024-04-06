@@ -20,6 +20,7 @@ export function ToDoList({
   removeTask,
   addTask,
 }: ToDoListPropsType) {
+  // **********New tasks added to the list********************************
   const [newTask, setNewTask] = useState("");
   console.log(newTask);
 
@@ -30,7 +31,7 @@ export function ToDoList({
     addTask(newTask);
     setNewTask("");
   };
-
+  //**************************************Tasks Filter **********************************/
   type FilterType = "all" | "active" | "completed";
   const [filter, setFilter] = useState<FilterType>("all");
 
@@ -49,7 +50,7 @@ export function ToDoList({
     });
     return filteredTasks;
   };
-
+  //************************TODOLIST RENDER********************************* */
   return (
     <div>
       <h2>{title}</h2>
