@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { Button } from "./Button";
 
 type ToDoListPropsType = {
   title: string;
   tasks: Array<ToDoListTasksPropsType>;
   removeTask: (taskId: number) => void;
+  addTask: (title: string) => void;
 };
 
 export type ToDoListTasksPropsType = {
@@ -12,7 +14,23 @@ export type ToDoListTasksPropsType = {
   isDone: boolean;
 };
 
-export function ToDoList({ title, tasks, removeTask }: ToDoListPropsType) {
+export function ToDoList({
+  title,
+  tasks,
+  removeTask,
+  addTask,
+}: ToDoListPropsType) {
+  const [newTask, setNewTask] = useState("");
+  console.log(newTask);
+
+  const onChangeInputHeandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewTask(event.currentTarget.value);
+  };
+  const onClickAddTaskButtonHandler = () => {
+    addTask(newTask);
+    setNewTask("");
+  };
+
   type FilterType = "all" | "active" | "completed";
   const [filter, setFilter] = useState<FilterType>("all");
 
@@ -35,8 +53,13 @@ export function ToDoList({ title, tasks, removeTask }: ToDoListPropsType) {
   return (
     <div>
       <h2>{title}</h2>
-      <input type="text" name="" id="" />
-      <button></button>
+      <input type="text" value={newTask} onChange={onChangeInputHeandler} />
+      <Button
+        name="+"
+        callBack={() => {
+          onClickAddTaskButtonHandler();
+        }}
+      />
       {getFilteredTasks(filter, tasks).length === 0 ? (
         <p>Список задач пуст</p>
       ) : (
@@ -45,7 +68,7 @@ export function ToDoList({ title, tasks, removeTask }: ToDoListPropsType) {
             <li key={id}>
               <input type="checkbox" checked={isDone} />
               <span>{title}</span>
-              <button onClick={() => removeTask(id)}>Delete task</button>
+              <button onClick={() => removeTask(id)}>Delete Task</button>
             </li>
           ))}
         </ul>
