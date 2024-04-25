@@ -4,12 +4,13 @@ import { Button } from "./Button";
 type ToDoListPropsType = {
   title: string;
   tasks: Array<ToDoListTasksPropsType>;
-  removeTask: (taskId: number) => void;
+  removeTask: (taskId: string) => void;
   addTask: (title: string) => void;
+  changeTaskStatus: (taskId: string, newIsDone: boolean) => void;
 };
 
 export type ToDoListTasksPropsType = {
-  id: number;
+  id: string;
   title: string;
   isDone: boolean;
 };
@@ -19,6 +20,7 @@ export function ToDoList({
   tasks,
   removeTask,
   addTask,
+  changeTaskStatus,
 }: ToDoListPropsType) {
   // **********New tasks added to the list********************************
   const [newTask, setNewTask] = useState("");
@@ -31,6 +33,7 @@ export function ToDoList({
     addTask(newTask);
     setNewTask("");
   };
+
   //**************************************Tasks Filter **********************************/
   type FilterType = "all" | "active" | "completed";
   const [filter, setFilter] = useState<FilterType>("all");
@@ -65,13 +68,24 @@ export function ToDoList({
         <p>Список задач пуст</p>
       ) : (
         <ul>
-          {getFilteredTasks(filter, tasks).map(({ id, title, isDone }) => (
-            <li key={id}>
-              <input type="checkbox" checked={isDone} />
-              <span>{title}</span>
-              <button onClick={() => removeTask(id)}>Delete Task</button>
-            </li>
-          ))}
+          {getFilteredTasks(filter, tasks).map(({ id, title, isDone }) => {
+            const onChangeTaskStatusHeandler = (
+              event: ChangeEvent<HTMLInputElement>
+            ) => {
+              changeTaskStatus(id, event.currentTarget.checked);
+            };
+            return (
+              <li key={id}>
+                <input
+                  type="checkbox"
+                  checked={isDone}
+                  onChange={onChangeTaskStatusHeandler}
+                />
+                <span>{title}</span>
+                <button onClick={() => removeTask(id)}>Delete Task</button>
+              </li>
+            );
+          })}
         </ul>
       )}
 
