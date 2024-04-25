@@ -4,9 +4,14 @@ import { Button } from "./Button";
 type ToDoListPropsType = {
   title: string;
   tasks: Array<ToDoListTasksPropsType>;
-  removeTask: (taskId: string) => void;
-  addTask: (title: string) => void;
-  changeTaskStatus: (taskId: string, newIsDone: boolean) => void;
+  todolistID: string;
+  removeTask: (todolistID: string, taskID: string) => void;
+  addTask: (todolistID: string, title: string) => void;
+  changeTaskStatus: (
+    todolistID: string,
+    taskId: string,
+    newIsDone: boolean
+  ) => void;
 };
 
 export type ToDoListTasksPropsType = {
@@ -14,28 +19,28 @@ export type ToDoListTasksPropsType = {
   title: string;
   isDone: boolean;
 };
-
+export type FilterType = "all" | "active" | "completed";
 export function ToDoList({
   title,
   tasks,
   removeTask,
   addTask,
   changeTaskStatus,
+  todolistID,
 }: ToDoListPropsType) {
-  // **********New tasks added to the list********************************
+  // **********    Add Title to the new Task  ********************************
   const [newTask, setNewTask] = useState("");
-  console.log(newTask);
 
   const onChangeInputHeandler = (event: ChangeEvent<HTMLInputElement>) => {
     setNewTask(event.currentTarget.value);
   };
   const onClickAddTaskButtonHandler = () => {
-    addTask(newTask);
+    addTask(todolistID, newTask);
     setNewTask("");
   };
 
   //**************************************Tasks Filter **********************************/
-  type FilterType = "all" | "active" | "completed";
+
   const [filter, setFilter] = useState<FilterType>("all");
 
   const getFilteredTasks = (
@@ -72,7 +77,7 @@ export function ToDoList({
             const onChangeTaskStatusHeandler = (
               event: ChangeEvent<HTMLInputElement>
             ) => {
-              changeTaskStatus(id, event.currentTarget.checked);
+              changeTaskStatus(todolistID, id, event.currentTarget.checked);
             };
             return (
               <li key={id}>
@@ -82,7 +87,9 @@ export function ToDoList({
                   onChange={onChangeTaskStatusHeandler}
                 />
                 <span>{title}</span>
-                <button onClick={() => removeTask(id)}>Delete Task</button>
+                <button onClick={() => removeTask(todolistID, id)}>
+                  Delete Task
+                </button>
               </li>
             );
           })}
