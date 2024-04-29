@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import "./App.css";
 import { FilterType, ToDoList, ToDoListTasksPropsType } from "./ToDoList";
 import { v1 } from "uuid";
+import { AddItemForm } from "./AddItemForm";
 
 function App() {
   type TodolistsType = {
@@ -74,9 +75,21 @@ function App() {
       },
     });
   };
+  const addTodolist = (title: string) => {
+    const newTodolist = { id: v1(), title };
+    setTodolists([newTodolist, ...todolists]);
+    setTasks({
+      ...tasks,
+      [newTodolist.id]: {
+        data: [],
+        filter: "all",
+      },
+    });
+  };
   //**************************RENDER TODOLIST*************************** */
   return (
     <div className="App">
+      <AddItemForm addItem={addTodolist} />
       {todolists.map((todolist) => {
         return (
           <ToDoList

@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Button } from "./Button";
+import { AddItemForm } from "./AddItemForm";
 
 type ToDoListPropsType = {
   title: string;
@@ -19,7 +20,9 @@ export type ToDoListTasksPropsType = {
   title: string;
   isDone: boolean;
 };
+
 export type FilterType = "all" | "active" | "completed";
+
 export function ToDoList({
   title,
   tasks,
@@ -28,19 +31,6 @@ export function ToDoList({
   changeTaskStatus,
   todolistID,
 }: ToDoListPropsType) {
-  // **********    Add Title to the new Task  ********************************
-  const [newTask, setNewTask] = useState("");
-
-  const onChangeInputHeandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTask(event.currentTarget.value);
-  };
-  const onClickAddTaskButtonHandler = () => {
-    addTask(todolistID, newTask);
-    setNewTask("");
-  };
-
-  //**************************************Tasks Filter **********************************/
-
   const [filter, setFilter] = useState<FilterType>("all");
 
   const getFilteredTasks = (
@@ -58,17 +48,14 @@ export function ToDoList({
     });
     return filteredTasks;
   };
+  const addTaskHeandler = (newTaskTitle: string) => {
+    addTask(todolistID, newTaskTitle);
+  };
   //************************TODOLIST RENDER********************************* */
   return (
     <div>
       <h2>{title}</h2>
-      <input type="text" value={newTask} onChange={onChangeInputHeandler} />
-      <Button
-        name="+"
-        callBack={() => {
-          onClickAddTaskButtonHandler();
-        }}
-      />
+      <AddItemForm addItem={addTaskHeandler} />
       {getFilteredTasks(filter, tasks).length === 0 ? (
         <p>Список задач пуст</p>
       ) : (
@@ -87,9 +74,7 @@ export function ToDoList({
                   onChange={onChangeTaskStatusHeandler}
                 />
                 <span>{title}</span>
-                <button onClick={() => removeTask(todolistID, id)}>
-                  Delete Task
-                </button>
+                <button onClick={() => removeTask(todolistID, id)}>x</button>
               </li>
             );
           })}
