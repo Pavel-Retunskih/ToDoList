@@ -8,12 +8,17 @@ type AddItemFormPropsType = {
 export function AddItemForm({ addItem }: AddItemFormPropsType) {
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
+
   const titleIsEmpty = title.trim().length === 0;
   const titleIsToLong = title.trim().length > 20;
+
   const onChangeInputHeandler = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.currentTarget.value.trim().length === 0) {
+      setError("Title is empty");
+    }
     setTitle(event.currentTarget.value);
-    setError("");
   };
+
   const onClickHandler = (itemTitle: string) => {
     if (!titleIsEmpty && !titleIsToLong) {
       addItem(itemTitle);
@@ -25,8 +30,13 @@ export function AddItemForm({ addItem }: AddItemFormPropsType) {
   };
   return (
     <div>
-      <input type="text" value={title} onChange={onChangeInputHeandler} />
-      {error ? <div>{error}</div> : ""}
+      <input
+        autoFocus
+        type="text"
+        value={title}
+        placeholder={error ? error : "New Title here"}
+        onChange={onChangeInputHeandler}
+      />
       <Button
         disabled={titleIsEmpty || titleIsToLong}
         name="+"
