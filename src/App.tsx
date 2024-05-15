@@ -5,10 +5,6 @@ import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
 
 function App() {
-  type TodolistsType = {
-    id: string;
-    title: string;
-  };
   type TasksStateType = {
     [key: string]: DataType;
   };
@@ -19,10 +15,10 @@ function App() {
   let todolistId1 = v1();
   let todolistId2 = v1();
 
-  let [todolists, setTodolists] = useState<Array<TodolistsType>>([
-    { id: todolistId1, title: "What to learn" },
-    { id: todolistId2, title: "What to buy" },
-  ]);
+  // let [todolists, setTodolists] = useState<Array<TodolistsType>>([
+  //   { id: todolistId1, title: "What to learn" },
+  //   { id: todolistId2, title: "What to buy" },
+  // ]);
 
   let [tasks, setTasks] = useState<TasksStateType>({
     [todolistId1]: {
