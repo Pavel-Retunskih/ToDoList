@@ -5,6 +5,7 @@ import {
   removeTodolistAC,
   todolistId1,
   todolistsReducer,
+  changeTodolistTitleAС,
 } from "./todolistsReducer";
 const startState: TodolistsType[] = initialState;
 test("todolist should have added to state", () => {
@@ -22,4 +23,22 @@ test("todolist should have removed from state", () => {
     removeTodolistAC(todolistId1)
   );
   expect(newState.length).toEqual(1);
+});
+
+test("todolist should have new title", () => {
+  const newState: TodolistsType[] = todolistsReducer(
+    startState,
+    changeTodolistTitleAС(todolistId1, "New title")
+  );
+  expect(newState.length).toEqual(2);
+  expect(newState[0].title).toEqual("New title");
+});
+
+test("todolist should have new title", () => {
+  const newState: TodolistsType[] = todolistsReducer(
+    startState,
+    changeTodolistTitleAС(todolistId1, "New title")
+  );
+  expect(newState.length).toEqual(2);
+  expect(newState[0].title).toEqual("New title");
 });
