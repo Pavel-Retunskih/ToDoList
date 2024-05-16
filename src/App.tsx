@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import { useState } from "react";
 import "./App.css";
 import { FilterType, TaskType, Todolist } from "./Todolist";
@@ -151,11 +151,7 @@ function App() {
           />
         ))
       )}
-=======
-import { ChangeEvent, useState } from "react";
-import "./App.css";
-import { ToDoList, ToDoListTasksPropsType } from "./ToDoList";
-import { v1 } from "uuid";
+
 
 function App() {
   const [tasks, setItems] = useState<Array<ToDoListTasksPropsType>>([
@@ -182,16 +178,16 @@ function App() {
 
   return (
     <div className="App">
-      <ToDoList
+      <Todolist
         title="What to learn"
         tasks={tasks}
         removeTask={removeTask}
         addTask={addTask}
         changeTaskStatus={changeTaskStatus}
       />
->>>>>>> fdb9cc126dd3b310967b2b4ef0f26a31e1e2aaed
+
     </div>
   );
-}
+
 
 export default App;
