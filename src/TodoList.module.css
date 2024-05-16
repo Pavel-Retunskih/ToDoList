@@ -1,0 +1,11 @@
+.isDone {
+  opacity: 0.5;
+}
+
+.activeFilter {
+  background-color: lightgreen;
+}
+
+ul {
+  list-style: none;
+}
