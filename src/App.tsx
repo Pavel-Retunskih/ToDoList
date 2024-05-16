@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import "./App.css";
 import { FilterType, TaskType, Todolist } from "./Todolist";
@@ -6,7 +5,7 @@ import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
 import { ParentComponent } from "./New";
 
-function App() {
+export function App() {
   type TodolistsType = {
     id: string;
     title: string;
@@ -128,7 +127,6 @@ function App() {
   //***********************RENDER************************************* */
   return (
     <div className="App">
-      <ParentComponent />
       <AddItemForm onChange={addTodoList} />
 
       {todolists.length === 0 ? (
@@ -151,43 +149,7 @@ function App() {
           />
         ))
       )}
-
-
-function App() {
-  const [tasks, setItems] = useState<Array<ToDoListTasksPropsType>>([
-    { id: v1(), title: "Css", isDone: true },
-    { id: v1(), title: "JS", isDone: true },
-    { id: v1(), title: "React", isDone: false },
-    { id: v1(), title: "Redux", isDone: false },
-  ]);
-
-  const removeTask = (taskId: string) => {
-    setItems(tasks.filter((item) => item.id !== taskId));
-  };
-
-  const addTask = (title: string) => {
-    setItems([{ id: v1(), title: title, isDone: false }, ...tasks]);
-  };
-  const changeTaskStatus = (taskId: string, newIsDone: boolean) => {
-    const task = tasks.find((task) => task.id === taskId);
-    if (task) {
-      task.isDone = newIsDone;
-      setItems([...tasks]);
-    }
-  };
-
-  return (
-    <div className="App">
-      <Todolist
-        title="What to learn"
-        tasks={tasks}
-        removeTask={removeTask}
-        addTask={addTask}
-        changeTaskStatus={changeTaskStatus}
-      />
-
     </div>
   );
-
-
+}
 export default App;
