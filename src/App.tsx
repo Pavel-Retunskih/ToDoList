@@ -19,7 +19,7 @@ function App() {
   let todolistId1 = v1();
   let todolistId2 = v1();
 
-  const [todolists, dispachTodolist] = useReducer(
+  const [todolists, dispatchTodolist] = useReducer(
     todolistsReducer,
     initialState
   );
@@ -74,7 +74,7 @@ function App() {
     });
   };
   const addTodolist = (title: string) => {
-    dispachTodolist(addTodolistAc(title));
+    dispatchTodolist(addTodolistAc(title));
   };
   //**************************RENDER TODOLIST*************************** */
   return (
