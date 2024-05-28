@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Button } from "./Button";
 import { AddItemForm } from "./AddItemForm";
 import { TaskType } from "./model/tasksReducer";
+import { FilterType } from "./model/todolistsReducer";
 
 type ToDoListPropsType = {
   title: string;
@@ -38,20 +39,20 @@ export function ToDoList({
     });
     return filteredTasks;
   };
-  const addTaskHeandler = (newTaskTitle: string) => {
+  const addTaskHandler = (newTaskTitle: string) => {
     addTask(todolistID, newTaskTitle);
   };
   //************************TODOLIST RENDER********************************* */
   return (
     <div>
       <h2>{title}</h2>
-      <AddItemForm addItem={addTaskHeandler} />
+      <AddItemForm addItem={addTaskHandler} />
       {getFilteredTasks(filter, tasks).length === 0 ? (
         <p>Список задач пуст</p>
       ) : (
         <ul>
           {getFilteredTasks(filter, tasks).map(({ id, title, isDone }) => {
-            const onChangeTaskStatusHeandler = (
+            const onChangeTaskStatusHandler = (
               event: ChangeEvent<HTMLInputElement>
             ) => {
               changeTaskStatus(todolistID, id, event.currentTarget.checked);
@@ -61,7 +62,7 @@ export function ToDoList({
                 <input
                   type="checkbox"
                   checked={isDone}
-                  onChange={onChangeTaskStatusHeandler}
+                  onChange={onChangeTaskStatusHandler}
                 />
                 <span>{title}</span>
                 <button onClick={() => removeTask(todolistID, id)}>x</button>

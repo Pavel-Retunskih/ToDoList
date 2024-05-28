@@ -4,7 +4,7 @@ import {
   tasksReducer,
 } from "./tasksReducer";
 import {
-  TodolistsType,
+  TodolistType,
   addTodolistAc,
   initialState as initialTodolistsState,
   removeTodolistAc,
@@ -14,10 +14,10 @@ import {
   changeTodolistsFilterAc,
 } from "./todolistsReducer";
 
-const startTodolistsState: TodolistsType[] = initialTodolistsState;
+const startTodolistsState: TodolistType[] = initialTodolistsState;
 const startTasksState: TasksStateType = initialTasksState;
 test("todolist should have added to state with empty array of tasks", () => {
-  const newTodolistsState: TodolistsType[] = todolistsReducer(
+  const newTodolistsState: TodolistType[] = todolistsReducer(
     startTodolistsState,
     addTodolistAc("New Title")
   );
@@ -33,7 +33,7 @@ test("todolist should have added to state with empty array of tasks", () => {
 });
 
 test("todolist should have removed from state", () => {
-  const newState: TodolistsType[] = todolistsReducer(
+  const newState: TodolistType[] = todolistsReducer(
     startTodolistsState,
     removeTodolistAc(todolistId1)
   );
@@ -41,7 +41,7 @@ test("todolist should have removed from state", () => {
 });
 
 test("todolist should have new title", () => {
-  const newState: TodolistsType[] = todolistsReducer(
+  const newState: TodolistType[] = todolistsReducer(
     startTodolistsState,
     changeTodolistTitleAc(todolistId1, "New title")
   );
@@ -50,7 +50,7 @@ test("todolist should have new title", () => {
 });
 
 test("todolist should have new title", () => {
-  const newState: TodolistsType[] = todolistsReducer(
+  const newState: TodolistType[] = todolistsReducer(
     startTodolistsState,
     changeTodolistsFilterAc(todolistId1, "completed")
   );

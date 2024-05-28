@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
 
-export type TodolistsType = {
+export type TodolistType = {
   id: string;
   title: string;
   filter: FilterType;
@@ -9,7 +9,7 @@ export type TodolistsType = {
 export let todolistId1 = v1();
 export let todolistId2 = v1();
 
-export const initialState: TodolistsType[] = [
+export const initialState: TodolistType[] = [
   { id: todolistId1, title: "What to learn", filter: "all" },
   { id: todolistId2, title: "What to buy", filter: "all" },
 ];
@@ -21,12 +21,12 @@ export type ActionsTypes =
   | ChangeTodolistsFilterAcType;
 
 export const todolistsReducer = (
-  state: TodolistsType[],
+  state: TodolistType[],
   action: ActionsTypes
-): TodolistsType[] => {
+): TodolistType[] => {
   switch (action.type) {
     case "ADD-TODOLIST": {
-      const newTodolist: TodolistsType = {
+      const newTodolist: TodolistType = {
         id: action.payload.todolistId,
         title: action.payload.title,
         filter: "all",

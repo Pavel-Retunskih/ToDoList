@@ -1,20 +1,44 @@
 import { ChangeEvent, useReducer, useState } from "react";
 import "./App.css";
-import { FilterType, ToDoList, ToDoListTasksPropsType } from "./ToDoList";
+import { ToDoList } from "./ToDoList";
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
 import {
+  TodolistType,
   addTodolistAc,
   initialState,
   todolistsReducer,
 } from "./model/todolistsReducer";
+import { TasksStateType } from "./model/tasksReducer";
 
 function App() {
-  const [todolists, dispatchTodolist] = useReducer(
-    todolistsReducer,
-    initialState
-  );
+  type TodolistType = {
+    id: string;
+    title: string;
+    filter: FilterType;
+  };
+  type FilterType = "all" | "active" | "completed";
 
+  let todolistId1 = v1();
+  let todolistId2 = v1();
+  const [tasks, setTasks] = useState<TasksStateType>({
+    [todolistId1]: {
+      data: [
+        { id: v1(), title: "HTML&CSS1111", isDone: true },
+        { id: v1(), title: "JS1111", isDone: true },
+      ],
+    },
+    [todolistId2]: {
+      data: [
+        { id: v1(), title: "HTML&CSS22222", isDone: true },
+        { id: v1(), title: "JS2222", isDone: true },
+      ],
+    },
+  });
+  const [todolists, setTodolists] = useState<TodolistType[]>([
+    { id: todolistId1, title: "What to learn", filter: "all" },
+    { id: todolistId2, title: "What to buy", filter: "all" },
+  ]);
   const removeTask = (todolistID: string, taskID: string) => {
     setTasks({
       ...tasks,
@@ -50,7 +74,9 @@ function App() {
     });
   };
   const addTodolist = (title: string) => {
-    dispatchTodolist(addTodolistAc(title));
+    const newTodolist: TodolistType = { id: v1(), title, filter: "all" };
+    setTodolists([...todolists, newTodolist]);
+    setTasks({ ...tasks, [newTodolist.id]: { data: [] } });
   };
   //**************************RENDER TODOLIST*************************** */
   return (
