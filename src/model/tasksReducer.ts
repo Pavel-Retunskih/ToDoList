@@ -1,7 +1,7 @@
 import { v1 } from "uuid";
 import { AddTodolistAcType, RemoveTodolistAcType } from "./todolistsReducer";
 
-let todolistId1 = v1();
+export const todolistId1 = "kjsdhfkjhsdkjfh" as const;
 let todolistId2 = v1();
 
 export type TasksStateType = {
@@ -102,7 +102,7 @@ export type addTodolist = {
     todolistId: string;
   };
 };
-export const addTaskAc = (todolistId: string, title: string) => {
+export const addTaskAc = (todolistId: string, title: string): addTaskAcType => {
   return {
     type: "ADD-TASK",
     payload: {

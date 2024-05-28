@@ -7,17 +7,18 @@ import {
   removeTaskAc,
   tasksReducer,
 } from "./tasksReducer";
+import { todolistId1 } from "./todolistsReducer";
 
 const startState: TasksStateType = initialTasksState;
-export let todolistId1 = v1();
+
 test("task should have added to tasks state", () => {
   const newState: TasksStateType = tasksReducer(
     startState,
     addTaskAc(todolistId1, "New Task")
   );
   expect(newState[todolistId1].data.length).toEqual(3);
-  expect(newState[todolistId1].data[0].title).toBe("New Task");
-  expect(newState[todolistId1].data[0].isDone).toBe(false);
+  expect(newState[todolistId1].data[2].title).toBe("New Task");
+  expect(newState[todolistId1].data[2].isDone).toBe(false);
 });
 test("task should have removed from tasks state", () => {
   const newState: TasksStateType = tasksReducer(
