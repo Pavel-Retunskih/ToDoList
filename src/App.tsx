@@ -1,46 +1,44 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useReducer, useState } from "react";
 import "./App.css";
-import { FilterType, ToDoList, ToDoListTasksPropsType } from "./ToDoList";
+import { ToDoList } from "./ToDoList";
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
+import {
+  TodolistType,
+  addTodolistAc,
+  initialState,
+  todolistsReducer,
+} from "./model/todolistsReducer";
+import { TasksStateType } from "./model/tasksReducer";
 
 function App() {
-  type TodolistsType = {
+  type TodolistType = {
     id: string;
     title: string;
-  };
-  type TasksStateType = {
-    [key: string]: DataType;
-  };
-  type DataType = {
-    data: ToDoListTasksPropsType[];
     filter: FilterType;
   };
+  type FilterType = "all" | "active" | "completed";
+
   let todolistId1 = v1();
   let todolistId2 = v1();
-
-  let [todolists, setTodolists] = useState<Array<TodolistsType>>([
-    { id: todolistId1, title: "What to learn" },
-    { id: todolistId2, title: "What to buy" },
-  ]);
-
-  let [tasks, setTasks] = useState<TasksStateType>({
+  const [tasks, setTasks] = useState<TasksStateType>({
     [todolistId1]: {
       data: [
         { id: v1(), title: "HTML&CSS1111", isDone: true },
         { id: v1(), title: "JS1111", isDone: true },
       ],
-      filter: "all",
     },
     [todolistId2]: {
       data: [
         { id: v1(), title: "HTML&CSS22222", isDone: true },
         { id: v1(), title: "JS2222", isDone: true },
       ],
-      filter: "all",
     },
   });
-
+  const [todolists, setTodolists] = useState<TodolistType[]>([
+    { id: todolistId1, title: "What to learn", filter: "all" },
+    { id: todolistId2, title: "What to buy", filter: "all" },
+  ]);
   const removeTask = (todolistID: string, taskID: string) => {
     setTasks({
       ...tasks,
@@ -76,15 +74,17 @@ function App() {
     });
   };
   const addTodolist = (title: string) => {
-    const newTodolist = { id: v1(), title };
-    setTodolists([newTodolist, ...todolists]);
-    setTasks({
-      ...tasks,
-      [newTodolist.id]: {
-        data: [],
-        filter: "all",
-      },
-    });
+    const newTodolist: TodolistType = { id: v1(), title, filter: "all" };
+    setTodolists([...todolists, newTodolist]);
+    setTasks({ ...tasks, [newTodolist.id]: { data: [] } });
+  };
+
+  const renameTodolist = (todolistID: string, newTitle: string) => {
+    setTodolists(
+      todolists.map((todolist) =>
+        todolist.id === todolistID ? { ...todolist, title: newTitle } : todolist
+      )
+    );
   };
   //**************************RENDER TODOLIST*************************** */
   return (
@@ -100,6 +100,7 @@ function App() {
             removeTask={removeTask}
             addTask={addTask}
             changeTaskStatus={changeTaskStatus}
+            renameTodolist={renameTodolist}
           />
         );
       })}

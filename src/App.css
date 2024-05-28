@@ -1,32 +1,5 @@
-
 .App {
-<<<<<<< HEAD
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-=======
-  padding: 30px;
-  display: flex;
 }
-
-.App > div {
-  margin-right: 50px;
-}
-
-.error {
-  border: red 1px solid;
->>>>>>> origin/main
-}
-
-.error-message {
-  color: red;
-}
-
-.active-filter {
-  background-color: aquamarine;
-}
-
-.is-done {
-  opacity: 0.5;
-}
-
