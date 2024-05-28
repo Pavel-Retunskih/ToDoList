@@ -1,6 +1,6 @@
 import { ChangeEvent, useReducer, useState } from "react";
 import "./App.css";
-import { ToDoList } from "./ToDoList";
+
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
 import {
@@ -10,6 +10,7 @@ import {
   todolistsReducer,
 } from "./model/todolistsReducer";
 import { TasksStateType } from "./model/tasksReducer";
+import { ToDoList } from "./ToDoList";
 
 function App() {
   type TodolistType = {
