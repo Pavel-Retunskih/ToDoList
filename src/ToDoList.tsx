@@ -3,6 +3,7 @@ import { Button } from "./Button";
 import { AddItemForm } from "./AddItemForm";
 import { TaskType } from "./model/tasksReducer";
 import { FilterType } from "./model/todolistsReducer";
+import { EditableSpan } from "./EditableSpan";
 
 type ToDoListPropsType = {
   title: string;
@@ -15,6 +16,7 @@ type ToDoListPropsType = {
     taskId: string,
     newIsDone: boolean
   ) => void;
+  renameTodolist: (todolistID: string, newTitle: string) => void;
 };
 
 export function ToDoList({
@@ -24,6 +26,7 @@ export function ToDoList({
   addTask,
   changeTaskStatus,
   todolistID,
+  renameTodolist,
 }: ToDoListPropsType) {
   const [filter, setFilter] = useState<FilterType>("all");
 
@@ -45,7 +48,10 @@ export function ToDoList({
   //************************TODOLIST RENDER********************************* */
   return (
     <div>
-      <h2>{title}</h2>
+      <EditableSpan
+        oldTitle={title}
+        setItem={(newTitle) => renameTodolist(todolistID, newTitle)}
+      />
       <AddItemForm addItem={addTaskHandler} />
       {getFilteredTasks(filter, tasks).length === 0 ? (
         <p>Список задач пуст</p>

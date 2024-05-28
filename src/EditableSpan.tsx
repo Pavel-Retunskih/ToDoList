@@ -22,6 +22,7 @@ export function EditableSpan({ oldTitle, setItem }: EditableSpanPropsType) {
       setItem(newTitle);
       setEditMode(false);
     }
+    console.log(newTitle);
   };
 
   return (

@@ -78,6 +78,14 @@ function App() {
     setTodolists([...todolists, newTodolist]);
     setTasks({ ...tasks, [newTodolist.id]: { data: [] } });
   };
+
+  const renameTodolist = (todolistID: string, newTitle: string) => {
+    setTodolists(
+      todolists.map((todolist) =>
+        todolist.id === todolistID ? { ...todolist, title: newTitle } : todolist
+      )
+    );
+  };
   //**************************RENDER TODOLIST*************************** */
   return (
     <div className="App">
@@ -92,6 +100,7 @@ function App() {
             removeTask={removeTask}
             addTask={addTask}
             changeTaskStatus={changeTaskStatus}
+            renameTodolist={renameTodolist}
           />
         );
       })}
