@@ -3,7 +3,6 @@ import "./App.css";
 import { FilterType, TaskType, Todolist } from "./Todolist";
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
-import { ParentComponent } from "./New";
 
 export function App() {
   type TodolistsType = {
