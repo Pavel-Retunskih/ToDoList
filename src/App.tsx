@@ -3,12 +3,11 @@ import "./App.css";
 import { FilterType, TaskType, Todolist } from "./Todolist";
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
-
+export type TodolistsType = {
+  id: string;
+  title: string;
+};
 export function App() {
-  type TodolistsType = {
-    id: string;
-    title: string;
-  };
   type TasksType = {
     [key: string]: DataType;
   };
