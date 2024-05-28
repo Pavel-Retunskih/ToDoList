@@ -42,7 +42,7 @@ export const todolistsReducer = (
     }
 
     default:
-      return new Error("case not found");
+      return state;
   }
 };
 
