@@ -7,7 +7,6 @@ export type TodolistType = {
 };
 
 export let todolistId1 = v1();
-export let todolistId2 = v1();
 
 export const initialState: TodolistType[] = [
   { id: todolistId1, title: "What to learn", filter: "all" },
