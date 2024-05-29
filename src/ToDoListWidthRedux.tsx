@@ -2,35 +2,21 @@ import { ChangeEvent, useState } from "react";
 import { AddItemForm } from "./AddItemForm";
 
 import { EditableSpan } from "./EditableSpan";
-import { FilterType, TaskType } from "./App";
+import { FilterType, TaskType, TodolistType } from "./App";
+import { useSelector } from "react-redux";
+import { AppRootStateType } from "./model/store";
 
 type ToDoListPropsType = {
-  title: string;
-  tasks: TaskType[];
-  todolistID: string;
-  removeTask: (todolistID: string, taskID: string) => void;
-  addTask: (todolistID: string, title: string) => void;
-  changeTaskStatus: (
-    todolistID: string,
-    taskId: string,
-    newIsDone: boolean
-  ) => void;
-  renameTodolist: (todolistID: string, newTitle: string) => void;
-  deleteTodolist: (todolistId: string) => void;
+  todolist: TodolistType;
 };
 
-export function ToDoList({
-  title,
-  tasks,
-  removeTask,
-  addTask,
-  changeTaskStatus,
-  todolistID,
-  renameTodolist,
-  deleteTodolist,
-}: ToDoListPropsType) {
+export function ToDoListWidthRedux({ todolist }: ToDoListPropsType) {
   const [filter, setFilter] = useState<FilterType>("all");
 
+  const { id, title } = todolist;
+  const tasks = useSelector<AppRootStateType, TaskType[]>(
+    (state) => state.tasks[id]
+  );
   const getFilteredTasks = (filter: FilterType, tasks: TaskType[]) => {
     const filteredTasks = tasks.filter((task) => {
       if (filter === "active") {

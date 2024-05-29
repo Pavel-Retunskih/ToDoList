@@ -27,10 +27,12 @@ type ActionsType =
   | ChangeTodolistTitleActionType
   | ChangeTodolistFilterActionType;
 
+const initialState: TodolistType[] = [];
+
 export const todolistsReducer = (
-  state: Array<TodolistType>,
+  state = initialState,
   action: ActionsType
-) => {
+): TodolistType[] => {
   switch (action.type) {
     case "REMOVE-TODOLIST":
       return state.filter((tl) => tl.id != action.id);
@@ -57,7 +59,7 @@ export const todolistsReducer = (
     }
 
     default:
-      throw new Error("I don't understand this type");
+      return state;
   }
 };
 
