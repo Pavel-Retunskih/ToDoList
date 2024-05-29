@@ -1,5 +1,7 @@
 import { ChangeEvent, useState } from "react";
-import { Button } from "./Button";
+import IconButton from "@mui/material/IconButton";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import TextField from "@mui/material/TextField";
 
 type AddItemFormPropsType = {
   addItem: (itemTitle: string) => void;
@@ -12,7 +14,7 @@ export function AddItemForm({ addItem }: AddItemFormPropsType) {
   const titleIsEmpty = title.trim().length === 0;
   const titleIsToLong = title.trim().length > 20;
 
-  const onChangeInputHeandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.value.trim().length === 0) {
       setError("Title is empty");
     }
@@ -30,20 +32,27 @@ export function AddItemForm({ addItem }: AddItemFormPropsType) {
   };
   return (
     <div>
-      <input
+      <TextField
+        id="outlined-basic"
+        label="New Title here"
+        variant="outlined"
         autoFocus
         type="text"
         value={title}
         placeholder={error ? error : "New Title here"}
-        onChange={onChangeInputHeandler}
+        onChange={onChangeInputHandler}
+        size="small"
       />
-      <Button
+
+      <IconButton
+        aria-label=""
         disabled={titleIsEmpty || titleIsToLong}
-        name="+"
-        callBack={() => {
+        onClick={() => {
           onClickHandler(title);
         }}
-      />
+      >
+        <PostAddIcon />
+      </IconButton>
     </div>
   );
 }
