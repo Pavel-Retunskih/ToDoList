@@ -3,8 +3,17 @@ import { AddItemForm } from "./AddItemForm";
 
 import { EditableSpan } from "./EditableSpan";
 import { FilterType, TaskType, TodolistType } from "./App";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "./model/store";
+import {
+  addTaskAC,
+  changeTaskStatusAC,
+  removeTaskAC,
+} from "./model/tasks-reducer";
+import {
+  ChangeTodolistTitleAC,
+  RemoveTodolistAC,
+} from "./model/todolists-reducer";
 
 type ToDoListPropsType = {
   todolist: TodolistType;
@@ -12,11 +21,11 @@ type ToDoListPropsType = {
 
 export function ToDoListWidthRedux({ todolist }: ToDoListPropsType) {
   const [filter, setFilter] = useState<FilterType>("all");
-
   const { id, title } = todolist;
   const tasks = useSelector<AppRootStateType, TaskType[]>(
     (state) => state.tasks[id]
   );
+  const dispatch = useDispatch();
   const getFilteredTasks = (filter: FilterType, tasks: TaskType[]) => {
     const filteredTasks = tasks.filter((task) => {
       if (filter === "active") {
@@ -29,8 +38,24 @@ export function ToDoListWidthRedux({ todolist }: ToDoListPropsType) {
     });
     return filteredTasks;
   };
-  const addTaskHandler = (newTaskTitle: string) => {
-    addTask(todolistID, newTaskTitle);
+  const removeTask = (todolistID: string, taskID: string) => {
+    dispatch(removeTaskAC(taskID, todolistID));
+  };
+  const addTask = (todolistID: string, title: string) => {
+    dispatch(addTaskAC(title, todolistID));
+  };
+  const changeTaskStatus = (
+    todolistID: string,
+    taskID: string,
+    newIsDone: boolean
+  ) => {
+    dispatch(changeTaskStatusAC(taskID, newIsDone, todolistID));
+  };
+  const deleteTodolist = (todolistId: string) => {
+    dispatch(RemoveTodolistAC(todolistId));
+  };
+  const renameTodolist = (todolistID: string, newTitle: string) => {
+    dispatch(ChangeTodolistTitleAC(todolistID, newTitle));
   };
   //************************TODOLIST RENDER********************************* */
   return (
@@ -38,11 +63,11 @@ export function ToDoListWidthRedux({ todolist }: ToDoListPropsType) {
       <div>
         <EditableSpan
           oldTitle={title}
-          setItem={(newTitle) => renameTodolist(todolistID, newTitle)}
+          setItem={(newTitle) => renameTodolist(todolist.id, newTitle)}
         />
-        <button onClick={() => deleteTodolist(todolistID)}>x</button>
+        <button onClick={() => deleteTodolist(todolist.id)}>x</button>
       </div>
-      <AddItemForm addItem={addTaskHandler} />
+      <AddItemForm addItem={(title) => addTask(todolist.id, title)} />
 
       {getFilteredTasks(filter, tasks).length === 0 ? (
         <p>Список задач пуст</p>
@@ -52,7 +77,7 @@ export function ToDoListWidthRedux({ todolist }: ToDoListPropsType) {
             const onChangeTaskStatusHandler = (
               event: ChangeEvent<HTMLInputElement>
             ) => {
-              changeTaskStatus(todolistID, id, event.currentTarget.checked);
+              changeTaskStatus(todolist.id, id, event.currentTarget.checked);
             };
             return (
               <li key={id}>
@@ -62,7 +87,7 @@ export function ToDoListWidthRedux({ todolist }: ToDoListPropsType) {
                   onChange={onChangeTaskStatusHandler}
                 />
                 <span>{title}</span>
-                <button onClick={() => removeTask(todolistID, id)}>x</button>
+                <button onClick={() => removeTask(todolist.id, id)}>x</button>
               </li>
             );
           })}

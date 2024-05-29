@@ -1,4 +1,3 @@
-import { useReducer, useState } from "react";
 import "./App.css";
 
 import { v1 } from "uuid";
@@ -19,6 +18,7 @@ import {
 } from "./model/tasks-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "./model/store";
+import { ToDoListWidthRedux } from "./ToDoListWidthRedux";
 export type TasksType = {
   [key: string]: TaskType[];
 };
@@ -35,9 +35,6 @@ export type TaskType = {
 };
 export type FilterType = "all" | "active" | "completed";
 function AppWidthRedux() {
-  let todolistId1 = v1();
-  let todolistId2 = v1();
-
   let todolists = useSelector<AppRootStateType, TodolistType[]>(
     (state) => state.todolists
   );
@@ -79,17 +76,18 @@ function AppWidthRedux() {
       <AddItemForm addItem={addTodolist} />
       {todolists.map((todolist) => {
         return (
-          <ToDoList
-            key={todolist.id}
-            todolistID={todolist.id}
-            title={todolist.title}
-            tasks={tasks[todolist.id]}
-            removeTask={removeTask}
-            addTask={addTask}
-            changeTaskStatus={changeTaskStatus}
-            renameTodolist={renameTodolist}
-            deleteTodolist={deleteTodolist}
-          />
+          // <ToDoList
+          //   key={todolist.id}
+          //   todolistID={todolist.id}
+          //   title={todolist.title}
+          //   tasks={tasks[todolist.id]}
+          //   removeTask={removeTask}
+          //   addTask={addTask}
+          //   changeTaskStatus={changeTaskStatus}
+          //   renameTodolist={renameTodolist}
+          //   deleteTodolist={deleteTodolist}
+          // />
+          <ToDoListWidthRedux todolist={todolist} />
         );
       })}
     </div>

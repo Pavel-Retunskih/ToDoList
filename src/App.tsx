@@ -68,7 +68,9 @@ function App() {
     setTodolists([...todolists, newTodolist]);
     setTasks({ ...tasks, [newTodolist.id]: [] });
   };
-
+  const deleteTodolist = (todolistId: string) => {
+    setTodolists(todolists.filter((todolist) => todolist.id !== todolistId));
+  };
   const renameTodolist = (todolistID: string, newTitle: string) => {
     setTodolists(
       todolists.map((todolist) =>
@@ -91,6 +93,7 @@ function App() {
             addTask={addTask}
             changeTaskStatus={changeTaskStatus}
             renameTodolist={renameTodolist}
+            deleteTodolist={deleteTodolist}
           />
         );
       })}
