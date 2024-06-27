@@ -4,6 +4,7 @@ import { Button } from "./Button";
 type AddItemFormPropsType = {
   addItem: (itemTitle: string) => void;
 };
+console.log("AddItemForm");
 
 export function AddItemForm({ addItem }: AddItemFormPropsType) {
   const [title, setTitle] = useState("");

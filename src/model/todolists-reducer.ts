@@ -21,7 +21,7 @@ export type ChangeTodolistFilterActionType = {
   filter: FilterType;
 };
 
-type ActionsType =
+export type TodolistsActionsType =
   | RemoveTodolistActionType
   | AddTodolistActionType
   | ChangeTodolistTitleActionType
@@ -29,18 +29,12 @@ type ActionsType =
 
 const initialState: TodolistType[] = [];
 
-export const todolistsReducer = (
-  state = initialState,
-  action: ActionsType
-): TodolistType[] => {
+export const todolistsReducer = (state = initialState, action: TodolistsActionsType): TodolistType[] => {
   switch (action.type) {
     case "REMOVE-TODOLIST":
       return state.filter((tl) => tl.id !== action.id);
     case "ADD-TODOLIST":
-      return [
-        ...state,
-        { id: action.todolistId, title: action.title, filter: "all" },
-      ];
+      return [...state, { id: action.todolistId, title: action.title, filter: "all" }];
     case "CHANGE-TODOLIST-TITLE": {
       const todolist = state.find((tl) => tl.id === action.id);
       if (todolist) {
@@ -63,23 +57,15 @@ export const todolistsReducer = (
   }
 };
 
-export const RemoveTodolistAC = (
-  todolistId: string
-): RemoveTodolistActionType => {
+export const RemoveTodolistAC = (todolistId: string): RemoveTodolistActionType => {
   return { type: "REMOVE-TODOLIST", id: todolistId };
 };
 export const AddTodolistAC = (title: string): AddTodolistActionType => {
   return { type: "ADD-TODOLIST", title: title, todolistId: v1() };
 };
-export const ChangeTodolistTitleAC = (
-  todolistId: string,
-  title: string
-): ChangeTodolistTitleActionType => {
+export const ChangeTodolistTitleAC = (todolistId: string, title: string): ChangeTodolistTitleActionType => {
   return { type: "CHANGE-TODOLIST-TITLE", title: title, id: todolistId };
 };
-export const ChangeTodolistFilterAC = (
-  todolistId: string,
-  filter: FilterType
-): ChangeTodolistFilterActionType => {
+export const ChangeTodolistFilterAC = (todolistId: string, filter: FilterType): ChangeTodolistFilterActionType => {
   return { type: "CHANGE-TODOLIST-FILTER", filter: filter, id: todolistId };
 };

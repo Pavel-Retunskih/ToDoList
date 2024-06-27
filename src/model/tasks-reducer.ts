@@ -1,15 +1,12 @@
 import { TasksType as TasksType } from "../App";
 import { v1 } from "uuid";
-import {
-  AddTodolistActionType,
-  RemoveTodolistActionType,
-} from "./todolists-reducer";
+import { AddTodolistActionType, RemoveTodolistActionType } from "./todolists-reducer";
 
 type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
 type AddTaskActionType = ReturnType<typeof addTaskAC>;
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>;
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>;
-type ActionsType =
+export type TasksActionsType =
   | RemoveTaskActionType
   | AddTaskActionType
   | ChangeTaskStatusType
@@ -19,17 +16,12 @@ type ActionsType =
 
 const initialState: TasksType = {};
 
-export const tasksReducer = (
-  state = initialState,
-  action: ActionsType
-): TasksType => {
+export const tasksReducer = (state = initialState, action: TasksActionsType): TasksType => {
   switch (action.type) {
     case "REMOVE-TASK": {
       return {
         ...state,
-        [action.todolistId]: state[action.todolistId].filter(
-          (t) => t.id !== action.taskId
-        ),
+        [action.todolistId]: state[action.todolistId].filter((t) => t.id !== action.taskId),
       };
     }
     case "ADD-TASK": {
@@ -77,17 +69,9 @@ export const removeTaskAC = (taskId: string, todolistId: string) => {
 export const addTaskAC = (title: string, todolistId: string) => {
   return { type: "ADD-TASK", title, todolistId } as const;
 };
-export const changeTaskStatusAC = (
-  taskId: string,
-  newStatus: boolean,
-  todolistId: string
-) => {
+export const changeTaskStatusAC = (taskId: string, newStatus: boolean, todolistId: string) => {
   return { type: "CHANGE-TASK-STATUS", taskId, newStatus, todolistId } as const;
 };
-export const changeTaskTitleAC = (
-  taskId: string,
-  newTitle: string,
-  todolistId: string
-) => {
+export const changeTaskTitleAC = (taskId: string, newTitle: string, todolistId: string) => {
   return { type: "CHANGE-TASK-TITLE", taskId, newTitle, todolistId } as const;
 };

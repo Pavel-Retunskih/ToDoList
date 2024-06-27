@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { Reducer, useReducer, useState } from "react";
 import "./App.css";
 
 import { v1 } from "uuid";
@@ -9,14 +9,10 @@ import {
   AddTodolistAC,
   ChangeTodolistTitleAC,
   RemoveTodolistAC,
+  TodolistsActionsType,
   todolistsReducer,
 } from "./model/todolists-reducer";
-import {
-  addTaskAC,
-  changeTaskStatusAC,
-  removeTaskAC,
-  tasksReducer,
-} from "./model/tasks-reducer";
+import { TasksActionsType, addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer } from "./model/tasks-reducer";
 export type TasksType = {
   [key: string]: TaskType[];
 };
@@ -36,7 +32,7 @@ function AppWidthReducer() {
   let todolistId1 = v1();
   let todolistId2 = v1();
 
-  const [tasks, dispatchToTasks] = useReducer(tasksReducer, {
+  const [tasks, dispatchToTasks] = useReducer<Reducer<TasksType, TasksActionsType>>(tasksReducer, {
     [todolistId1]: [
       { id: v1(), title: "HTML&CSS1111", isDone: true },
       { id: v1(), title: "JS1111", isDone: true },
@@ -48,10 +44,13 @@ function AppWidthReducer() {
     ],
   });
 
-  const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [
-    { id: todolistId1, title: "What to learn", filter: "all" },
-    { id: todolistId2, title: "What to buy", filter: "all" },
-  ]);
+  const [todolists, dispatchToTodolists] = useReducer<Reducer<Array<TodolistType>, TodolistsActionsType>>(
+    todolistsReducer,
+    [
+      { id: todolistId1, title: "What to learn", filter: "all" },
+      { id: todolistId2, title: "What to buy", filter: "all" },
+    ]
+  );
 
   //   let [todolists, dispatchToTodolists] = useReducer<Reducer<Array<TodolistType>, ActionsType>>(todolistsReducer, [
   //     {id: todolistId1, title: "What to learn", filter: "all"},
@@ -64,11 +63,7 @@ function AppWidthReducer() {
   const addTask = (todolistID: string, title: string) => {
     dispatchToTasks(addTaskAC(title, todolistID));
   };
-  const changeTaskStatus = (
-    todolistID: string,
-    taskID: string,
-    newIsDone: boolean
-  ) => {
+  const changeTaskStatus = (todolistID: string, taskID: string, newIsDone: boolean) => {
     dispatchToTasks(changeTaskStatusAC(taskID, newIsDone, todolistID));
   };
 
