@@ -1,10 +1,11 @@
-import { ChangeEvent, useReducer, useState } from "react";
 import "./App.css";
-
-import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
-
 import { ToDoList } from "./ToDoList";
+import { useDispatch, useSelector } from "react-redux";
+import { addTaskAC, changeTaskStatusAC, removeTaskAC } from "./model/tasks-reducer";
+import { AddTodolistAC, ChangeTodolistTitleAC } from "./model/todolists-reducer";
+import { AppRootStateType } from "./store/store";
+
 export type TasksType = {
   [key: string]: Task[];
 };
@@ -13,60 +14,53 @@ export type TodolistType = {
   title: string;
   filter: FilterType;
 };
-
 export type Task = {
   id: string;
   title: string;
   isDone: boolean;
 };
-export type FilterType = "all" | "active" | "completed";
-function App() {
-  let todolistId1 = v1();
-  let todolistId2 = v1();
-  const [tasks, setTasks] = useState<TasksType>({
-    [todolistId1]: [
-      { id: v1(), title: "HTML&CSS1111", isDone: true },
-      { id: v1(), title: "JS1111", isDone: true },
-    ],
 
-    [todolistId2]: [
-      { id: v1(), title: "HTML&CSS22222", isDone: true },
-      { id: v1(), title: "JS2222", isDone: true },
-    ],
-  });
-  const [todolists, setTodolists] = useState<TodolistType[]>([
-    { id: todolistId1, title: "What to learn", filter: "all" },
-    { id: todolistId2, title: "What to buy", filter: "all" },
-  ]);
+export type FilterType = "all" | "active" | "completed";
+
+//***************************************************** */
+function App() {
+  const todolists = useSelector((state: AppRootStateType) => state.todolists);
+  console.log(todolists);
+
+  const tasks = useSelector((state: AppRootStateType) => state.tasks);
+  const dispatch = useDispatch();
+  // let todolistId1 = v1();
+  // let todolistId2 = v1();
+  // const [tasks, setTasks] = useState<TasksType>({
+  //   [todolistId1]: [
+  //     { id: v1(), title: "HTML&CSS1111", isDone: true },
+  //     { id: v1(), title: "JS1111", isDone: true },
+  //   ],
+
+  //   [todolistId2]: [
+  //     { id: v1(), title: "HTML&CSS22222", isDone: true },
+  //     { id: v1(), title: "JS2222", isDone: true },
+  //   ],
+  // });
+  // const [todolists, setTodolists] = useState<TodolistType[]>([
+  //   { id: todolistId1, title: "What to learn", filter: "all" },
+  //   { id: todolistId2, title: "What to buy", filter: "all" },
+  // ]);
   const removeTask = (todolistID: string, taskID: string) => {
-    setTasks({
-      ...tasks,
-      [todolistID]: tasks[todolistID].filter((task) => task.id !== taskID),
-    });
+    dispatch(removeTaskAC(todolistID, taskID));
   };
   const addTask = (todolistID: string, title: string) => {
-    let newTask = { id: v1(), title, isDone: false };
-    setTasks({
-      ...tasks,
-      [todolistID]: [newTask, ...tasks[todolistID]],
-    });
+    dispatch(addTaskAC(todolistID, title));
   };
   const changeTaskStatus = (todolistID: string, taskID: string, newIsDone: boolean) => {
-    setTasks({
-      ...tasks,
-      [todolistID]: tasks[todolistID].map((task) => (task.id === taskID ? { ...task, isDone: newIsDone } : task)),
-    });
+    dispatch(changeTaskStatusAC(todolistID, taskID, newIsDone));
   };
   const addTodolist = (title: string) => {
-    const newTodolist: TodolistType = { id: v1(), title, filter: "all" };
-    setTodolists([...todolists, newTodolist]);
-    setTasks({ ...tasks, [newTodolist.id]: [] });
+    dispatch(AddTodolistAC(title));
   };
 
   const renameTodolist = (todolistID: string, newTitle: string) => {
-    setTodolists(
-      todolists.map((todolist) => (todolist.id === todolistID ? { ...todolist, title: newTitle } : todolist))
-    );
+    dispatch(ChangeTodolistTitleAC(todolistID, newTitle));
   };
   //**************************RENDER TODOLIST*************************** */
   return (
