@@ -1,12 +1,11 @@
 import { ChangeEvent, useReducer, useState } from "react";
 import "./App.css";
-
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
-
 import { ToDoList } from "./ToDoList";
+
 export type TasksType = {
-  [key: string]: Task[];
+  [key: string]: TaskType[];
 };
 export type TodolistType = {
   id: string;
@@ -14,15 +13,19 @@ export type TodolistType = {
   filter: FilterType;
 };
 
+=======
+
 export type Task = {
   id: string;
   title: string;
   isDone: boolean;
 };
 export type FilterType = "all" | "active" | "completed";
+
 function App() {
   let todolistId1 = v1();
   let todolistId2 = v1();
+
   const [tasks, setTasks] = useState<TasksType>({
     [todolistId1]: [
       { id: v1(), title: "HTML&CSS1111", isDone: true },
@@ -38,6 +41,7 @@ function App() {
     { id: todolistId1, title: "What to learn", filter: "all" },
     { id: todolistId2, title: "What to buy", filter: "all" },
   ]);
+
   const removeTask = (todolistID: string, taskID: string) => {
     setTasks({
       ...tasks,
@@ -62,12 +66,12 @@ function App() {
     setTodolists([...todolists, newTodolist]);
     setTasks({ ...tasks, [newTodolist.id]: [] });
   };
-
   const renameTodolist = (todolistID: string, newTitle: string) => {
     setTodolists(
       todolists.map((todolist) => (todolist.id === todolistID ? { ...todolist, title: newTitle } : todolist))
     );
   };
+
   //**************************RENDER TODOLIST*************************** */
   return (
     <div className="App">
