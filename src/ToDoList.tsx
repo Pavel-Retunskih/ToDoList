@@ -1,27 +1,25 @@
 import { ChangeEvent, useState } from "react";
-import { Button } from "./Button";
+
+import { EditableSpan } from "./EditableSpan";
+import { FilterType, Task } from "./App";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 import { AddItemForm } from "./AddItemForm";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 type ToDoListPropsType = {
   title: string;
-  tasks: Array<ToDoListTasksPropsType>;
+  tasks: Task[];
   todolistID: string;
   removeTask: (todolistID: string, taskID: string) => void;
   addTask: (todolistID: string, title: string) => void;
-  changeTaskStatus: (
-    todolistID: string,
-    taskId: string,
-    newIsDone: boolean
-  ) => void;
+  changeTaskStatus: (todolistID: string, taskId: string, newIsDone: boolean) => void;
+  renameTodolist: (todolistID: string, newTitle: string) => void;
 };
-
-export type ToDoListTasksPropsType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
-
-export type FilterType = "all" | "active" | "completed";
 
 export function ToDoList({
   title,
@@ -30,13 +28,11 @@ export function ToDoList({
   addTask,
   changeTaskStatus,
   todolistID,
+  renameTodolist,
 }: ToDoListPropsType) {
   const [filter, setFilter] = useState<FilterType>("all");
 
-  const getFilteredTasks = (
-    filter: FilterType,
-    tasks: Array<ToDoListTasksPropsType>
-  ) => {
+  const getFilteredTasks = (filter: FilterType, tasks: Task[]) => {
     const filteredTasks = tasks.filter((task) => {
       if (filter === "active") {
         return !task.isDone;
@@ -48,42 +44,46 @@ export function ToDoList({
     });
     return filteredTasks;
   };
-  const addTaskHeandler = (newTaskTitle: string) => {
+  const addTaskHandler = (newTaskTitle: string) => {
     addTask(todolistID, newTaskTitle);
   };
   //************************TODOLIST RENDER********************************* */
   return (
-    <div>
-      <h2>{title}</h2>
-      <AddItemForm addItem={addTaskHeandler} />
-      {getFilteredTasks(filter, tasks).length === 0 ? (
-        <p>Список задач пуст</p>
-      ) : (
-        <ul>
-          {getFilteredTasks(filter, tasks).map(({ id, title, isDone }) => {
-            const onChangeTaskStatusHeandler = (
-              event: ChangeEvent<HTMLInputElement>
-            ) => {
-              changeTaskStatus(todolistID, id, event.currentTarget.checked);
-            };
-            return (
-              <li key={id}>
-                <input
-                  type="checkbox"
-                  checked={isDone}
-                  onChange={onChangeTaskStatusHeandler}
-                />
-                <span>{title}</span>
-                <button onClick={() => removeTask(todolistID, id)}>x</button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+    <Box>
+      <Paper elevation={2} square>
+        <EditableSpan oldTitle={title} setItem={(newTitle) => renameTodolist(todolistID, newTitle)} />
+        <AddItemForm addItem={addTaskHandler} />
+        {getFilteredTasks(filter, tasks).length === 0 ? (
+          <p>Список задач пуст</p>
+        ) : (
+          <List>
+            {getFilteredTasks(filter, tasks).map(({ id, title, isDone }) => {
+              const onChangeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                changeTaskStatus(todolistID, id, event.currentTarget.checked);
+              };
+              return (
+                <ListItem key={id} disablePadding divider>
+                  <input type="checkbox" checked={isDone} onChange={onChangeTaskStatusHandler} />
+                  <span>{title}</span>
+                  <IconButton size="small" onClick={() => removeTask(todolistID, id)}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </ListItem>
+              );
+            })}
+          </List>
+        )}
 
-      <button onClick={() => setFilter("all")}>All</button>
-      <button onClick={() => setFilter("active")}>Active</button>
-      <button onClick={() => setFilter("completed")}>Completed</button>
-    </div>
+        <Button variant="outlined" size="small" color="success" onClick={() => setFilter("all")}>
+          All
+        </Button>
+        <Button variant="outlined" size="small" color="secondary" onClick={() => setFilter("active")}>
+          Active
+        </Button>
+        <Button variant="outlined" size="small" color="error" onClick={() => setFilter("completed")}>
+          Completed
+        </Button>
+      </Paper>
+    </Box>
   );
 }
