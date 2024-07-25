@@ -12,7 +12,10 @@ export type TodolistType = {
   title: string;
   filter: FilterType;
 };
-export type TaskType = {
+
+=======
+
+export type Task = {
   id: string;
   title: string;
   isDone: boolean;
@@ -52,16 +55,10 @@ function App() {
       [todolistID]: [newTask, ...tasks[todolistID]],
     });
   };
-  const changeTaskStatus = (
-    todolistID: string,
-    taskID: string,
-    newIsDone: boolean
-  ) => {
+  const changeTaskStatus = (todolistID: string, taskID: string, newIsDone: boolean) => {
     setTasks({
       ...tasks,
-      [todolistID]: tasks[todolistID].map((task) =>
-        task.id === taskID ? { ...task, isDone: newIsDone } : task
-      ),
+      [todolistID]: tasks[todolistID].map((task) => (task.id === taskID ? { ...task, isDone: newIsDone } : task)),
     });
   };
   const addTodolist = (title: string) => {
@@ -71,9 +68,7 @@ function App() {
   };
   const renameTodolist = (todolistID: string, newTitle: string) => {
     setTodolists(
-      todolists.map((todolist) =>
-        todolist.id === todolistID ? { ...todolist, title: newTitle } : todolist
-      )
+      todolists.map((todolist) => (todolist.id === todolistID ? { ...todolist, title: newTitle } : todolist))
     );
   };
 

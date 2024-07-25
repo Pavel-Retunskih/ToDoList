@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+
 import { EditableSpan } from "./EditableSpan";
 import { FilterType, TaskType } from "./App";
 import Paper from "@mui/material/Paper";
@@ -9,18 +10,17 @@ import IconButton from "@mui/material/IconButton";
 import { AddItemForm } from "./AddItemForm";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+=======
+
+
 
 type ToDoListPropsType = {
   title: string;
-  tasks: TaskType[];
+  tasks: Task[];
   todolistID: string;
   removeTask: (todolistID: string, taskID: string) => void;
   addTask: (todolistID: string, title: string) => void;
-  changeTaskStatus: (
-    todolistID: string,
-    taskId: string,
-    newIsDone: boolean
-  ) => void;
+  changeTaskStatus: (todolistID: string, taskId: string, newIsDone: boolean) => void;
   renameTodolist: (todolistID: string, newTitle: string) => void;
 };
 
@@ -35,7 +35,7 @@ export function ToDoList({
 }: ToDoListPropsType) {
   const [filter, setFilter] = useState<FilterType>("all");
 
-  const getFilteredTasks = (filter: FilterType, tasks: TaskType[]) => {
+  const getFilteredTasks = (filter: FilterType, tasks: Task[]) => {
     const filteredTasks = tasks.filter((task) => {
       if (filter === "active") {
         return !task.isDone;
@@ -52,6 +52,7 @@ export function ToDoList({
   };
   //************************TODOLIST RENDER********************************* */
   return (
+
     <Box>
       <Paper elevation={2} square>
         <EditableSpan
@@ -88,6 +89,8 @@ export function ToDoList({
             })}
           </List>
         )}
+
+    
 
         <Button
           variant="outlined"
