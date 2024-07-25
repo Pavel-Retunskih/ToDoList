@@ -1,5 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import { Button } from "./Button";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
 
 type AddItemFormPropsType = {
   addItem: (itemTitle: string) => void;
@@ -29,21 +32,24 @@ export function AddItemForm({ addItem }: AddItemFormPropsType) {
     }
   };
   return (
-    <div>
-      <input
+    <div style={{ width: "100%", marginTop: "20px", marginLeft: "40px" }}>
+      <TextField
         autoFocus
+        size="small"
         type="text"
         value={title}
         placeholder={error ? error : "New Title here"}
         onChange={onChangeInputHeandler}
       />
-      <Button
+      <IconButton
         disabled={titleIsEmpty || titleIsToLong}
-        name="+"
-        callBack={() => {
+        size="medium"
+        onClick={() => {
           onClickHandler(title);
         }}
-      />
+      >
+        <AddIcon color="primary" />
+      </IconButton>
     </div>
   );
 }

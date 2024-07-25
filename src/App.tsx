@@ -5,6 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTaskAC, changeTaskStatusAC, removeTaskAC } from "./model/tasks-reducer";
 import { AddTodolistAC, ChangeTodolistTitleAC } from "./model/todolists-reducer";
 import { AppRootStateType } from "./store/store";
+import AppBar from "@mui/material/AppBar/AppBar";
+import Toolbar from "@mui/material/Toolbar/Toolbar";
+import IconButton from "@mui/material/IconButton/IconButton";
+import Typography from "@mui/material/Typography/Typography";
+import Button from "@mui/material/Button/Button";
+import MenuIcon from "@mui/icons-material/Menu";
+import Box from "@mui/material/Box/Box";
 
 export type TasksType = {
   [key: string]: Task[];
@@ -65,21 +72,36 @@ function App() {
   //**************************RENDER TODOLIST*************************** */
   return (
     <div className="App">
-      <AddItemForm addItem={addTodolist} />
-      {todolists.map((todolist) => {
-        return (
-          <ToDoList
-            key={todolist.id}
-            todolistID={todolist.id}
-            title={todolist.title}
-            tasks={tasks[todolist.id]}
-            removeTask={removeTask}
-            addTask={addTask}
-            changeTaskStatus={changeTaskStatus}
-            renameTodolist={renameTodolist}
-          />
-        );
-      })}
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              News
+            </Typography>
+            <Button color="inherit">Login</Button>
+          </Toolbar>
+        </AppBar>
+        <AddItemForm addItem={addTodolist} />
+        <Box sx={{ display: "flex", gap: "20px", margin: "30px auto", flexWrap: "wrap", width: "1448px" }}>
+          {todolists.map((todolist) => {
+            return (
+              <ToDoList
+                key={todolist.id}
+                todolistID={todolist.id}
+                title={todolist.title}
+                tasks={tasks[todolist.id]}
+                removeTask={removeTask}
+                addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
+                renameTodolist={renameTodolist}
+              />
+            );
+          })}
+        </Box>
+      </Box>
     </div>
   );
 }

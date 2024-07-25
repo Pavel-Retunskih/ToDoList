@@ -29,6 +29,7 @@ export function EditableSpan({ oldTitle, setItem }: EditableSpanPropsType) {
     <>
       {editMode ? (
         <input
+          style={{ margin: "0 auto" }}
           type="text"
           autoFocus
           value={newTitle}
@@ -40,7 +41,9 @@ export function EditableSpan({ oldTitle, setItem }: EditableSpanPropsType) {
           }}
         />
       ) : (
-        <span onDoubleClick={onSetEditModeHandler}>{oldTitle}</span>
+        <span onDoubleClick={onSetEditModeHandler} style={{ textAlign: "center", display: "block" }}>
+          {oldTitle}
+        </span>
       )}
     </>
   );
