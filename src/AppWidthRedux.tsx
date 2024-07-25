@@ -38,7 +38,7 @@ function AppWidthRedux() {
   let todolists = useSelector<AppRootStateType, TodolistType[]>(
     (state) => state.todolists
   );
-  let tasks = useSelector<AppRootStateType, TasksType>((state) => state.tasks);
+  // let tasks = useSelector<AppRootStateType, TasksType>((state) => state.tasks);
 
   const dispatch = useDispatch();
 
