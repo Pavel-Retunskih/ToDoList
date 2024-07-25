@@ -87,7 +87,7 @@ function AppWidthRedux() {
           //   renameTodolist={renameTodolist}
           //   deleteTodolist={deleteTodolist}
           // />
-          <ToDoListWidthRedux todolist={todolist} />
+          <ToDoListWidthRedux key={todolist.id} todolist={todolist} />
         );
       })}
     </div>
